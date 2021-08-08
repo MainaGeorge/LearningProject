@@ -17,6 +17,15 @@ namespace AutoLot.Samples
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             OnModelCreatingPartial(modelBuilder);
+
+            modelBuilder.Entity<Car>(c =>
+            {
+                c.Property(p => p.IsDrivable)
+                    .HasField("_isDrivable")
+                    .HasDefaultValue(true);
+                c.Property(p => p.FullName)
+                    .HasComputedColumnSql("[PetName] + ' (' + [Color] + ' )'", stored:true);
+            });
         }
 
         private void OnModelCreatingPartial(ModelBuilder modelBuilder)
